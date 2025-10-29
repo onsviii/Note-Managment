@@ -3,6 +3,7 @@ package com.onsvii.testtaskqoq.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.bson.types.ObjectId;
 
 import java.util.Map;
 
@@ -10,6 +11,6 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NoteStatisticDTO {
-    String noteId;
+    ObjectId noteId;
     Map<String, Integer> wordCounts;
 }

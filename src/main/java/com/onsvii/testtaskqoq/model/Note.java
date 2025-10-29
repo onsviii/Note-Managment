@@ -3,6 +3,7 @@ package com.onsvii.testtaskqoq.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -15,7 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 public class Note {
     @Id
-    String id;
+    ObjectId id;
     String title;
     String text;
     List<Tag> tags;
