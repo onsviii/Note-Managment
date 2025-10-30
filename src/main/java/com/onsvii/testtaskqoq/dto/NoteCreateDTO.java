@@ -2,6 +2,7 @@ package com.onsvii.testtaskqoq.dto;
 
 import com.onsvii.testtaskqoq.model.Note;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,5 +17,6 @@ public class NoteCreateDTO {
     String title;
     @NotBlank(message = "Text must not be empty")
     String text;
+    @NotNull
     List<Note.Tag> tags;
 }

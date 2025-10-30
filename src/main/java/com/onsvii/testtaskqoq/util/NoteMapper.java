@@ -5,8 +5,6 @@ import com.onsvii.testtaskqoq.dto.NoteDTO;
 import com.onsvii.testtaskqoq.dto.NoteSummaryDTO;
 import com.onsvii.testtaskqoq.model.Note;
 
-import java.time.LocalDate;
-
 public class NoteMapper {
     public static NoteDTO mapToNoteDTO(Note note) {
         NoteDTO noteDTO = new NoteDTO();
@@ -25,7 +23,6 @@ public class NoteMapper {
         noteSummaryDTO.setId(note.getId());
         noteSummaryDTO.setTitle(note.getTitle());
         noteSummaryDTO.setCreatedAt(note.getCreatedAt());
-        noteSummaryDTO.setUpdatedAt(note.getUpdatedAt());
 
         return noteSummaryDTO;
     }
@@ -35,8 +32,6 @@ public class NoteMapper {
         note.setTitle(noteDTO.getTitle());
         note.setText(noteDTO.getText());
         note.setTags(noteDTO.getTags());
-        note.setCreatedAt(LocalDate.now());
-        note.setUpdatedAt(LocalDate.now());
 
         return note;
     }

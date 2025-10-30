@@ -1,18 +1,16 @@
 package com.onsvii.testtaskqoq.controller;
 
-import com.onsvii.testtaskqoq.dto.NoteCreateDTO;
-import com.onsvii.testtaskqoq.dto.NoteDTO;
-import com.onsvii.testtaskqoq.dto.NoteStatisticDTO;
-import com.onsvii.testtaskqoq.dto.NoteSummaryDTO;
+import com.onsvii.testtaskqoq.dto.*;
 import com.onsvii.testtaskqoq.model.Note;
-import com.onsvii.testtaskqoq.service.NoteServiceImpl;
+import com.onsvii.testtaskqoq.service.NoteService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.bson.types.ObjectId;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.data.web.PagedModel;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,10 +21,10 @@ import java.util.List;
 @RequiredArgsConstructor
 @Validated
 public class NoteController {
-    private final NoteServiceImpl noteService;
+    private final NoteService noteService;
 
     @GetMapping
-    public PagedModel<NoteSummaryDTO> findAll(@Valid @RequestParam(value = "tag",
+    public PagedModel<NoteSummaryDTO> findAll(@RequestParam(value = "tag",
                                                           required = false) List<Note.Tag> tags,
                                               @PageableDefault(sort = "createdAt",
                                                       direction = Sort.Direction.DESC) Pageable pageable) {
@@ -35,28 +33,38 @@ public class NoteController {
     }
 
     @GetMapping("/{id}")
-    public NoteDTO findById(@PathVariable ObjectId id) {
-        return null;
+    public NoteDTO findById(@PathVariable String id) {
+        return noteService.findById(id);
     }
 
     @GetMapping("/{id}/stats")
-    public NoteStatisticDTO getNoteStats(@PathVariable ObjectId id) {
-        return null;
+    public NoteStatisticDTO getNoteStats(@PathVariable String id) {
+        return noteService.computeStats(id);
     }
 
     @PostMapping
-    public NoteDTO create(@Valid @RequestBody NoteCreateDTO noteDTO) {
-        return noteService.create(noteDTO);
+    public ResponseEntity<NoteDTO> create(@Valid @RequestBody NoteCreateDTO noteDTO) {
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(noteService.create(noteDTO));
     }
 
     @PutMapping("/{id}")
-    public NoteDTO update(@Valid @RequestBody NoteCreateDTO noteDTO,
-                          @PathVariable ObjectId id) {
-        return null;
+    public NoteDTO update(@PathVariable String id,
+                          @Valid @RequestBody NoteCreateDTO noteDTO) {
+        return noteService.update(id,noteDTO);
+    }
+
+    @PatchMapping("/{id}")
+    public NoteDTO update(@PathVariable String id,
+                          @Valid @RequestBody NoteUpdateDTO noteDTO) {
+        return noteService.update(id, noteDTO);
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable ObjectId id) {
+    public ResponseEntity<?> delete(@PathVariable String id) {
+        noteService.delete(id);
 
+        return ResponseEntity.noContent().build();
     }
 }
