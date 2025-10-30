@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  mongodb-service:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - notes-network
+
+  app-service:
+    build: .
+    container_name: qoq-app
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongodb-service:27017/notesdb
+    networks:
+      - notes-network
+    depends_on:
+      - mongodb-service
+
+networks:
+  notes-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
+    driver: local
