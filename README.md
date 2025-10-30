@@ -19,7 +19,7 @@
 1.  **Клонуйте репозиторій:**
 
     ```sh
-    git clone [https://github.com/onsviii/Note-Managment.git]
+    git clone https://github.com/onsviii/Note-Managment.git
     ```
 
 2.  **Запустіть за допомогою Docker Compose:**
